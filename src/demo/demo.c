@@ -1,4 +1,4 @@
-/* //////////////////////////////////////////////////////////////////////////////////////
+﻿/* //////////////////////////////////////////////////////////////////////////////////////
  * includes
  */
 #include "demo.h"
@@ -255,7 +255,7 @@ static tb_demo_t g_demo[] =
 /* //////////////////////////////////////////////////////////////////////////////////////
  * main
  */
-tb_int_t main(tb_int_t argc, tb_char_t** argv)
+tb_int_t main1(tb_int_t argc, tb_char_t** argv)
 {
     // init tbox
 #if 0
@@ -315,3 +315,113 @@ tb_int_t main(tb_int_t argc, tb_char_t** argv)
     // ok?
     return ok;
 }
+
+tb_int_t main2(tb_int_t argc, tb_char_t** argv)
+{
+
+    // find the main func from the first argument
+    tb_int_t            ok = 0;
+    tb_char_t const*    name = tb_null;
+    if (argc > 1 && argv[1])
+    {
+        tb_size_t i = 0;
+        tb_size_t n = tb_arrayn(g_demo);
+        for (i = 0; i < n; i++)
+        {
+            // find it?
+            if (g_demo[i].name && !tb_stricmp(g_demo[i].name, argv[1]))
+            {
+                // save name
+                name = g_demo[i].name;
+
+                // done main
+                ok = g_demo[i].main(argc - 1, argv + 1);
+                break;
+            }
+        }
+    }
+
+    // no this demo? help it
+    if (!name)
+    {
+        tb_trace_i("======================================================================");
+        tb_trace_i("Usages: xmake r demo [testname] arguments ...");
+        tb_trace_i("");
+        tb_trace_i(".e.g");
+        tb_trace_i("    xmake r demo stream http://www.xxxxx.com /tmp/a");
+        tb_trace_i("");
+
+        // walk name
+        tb_size_t i = 0;
+        tb_size_t n = tb_arrayn(g_demo);
+        for (i = 0; i < n; i++) tb_trace_i("testname: %s", g_demo[i].name);
+    }
+
+
+    // ok?
+    return ok;
+}
+
+
+tb_int_t main666(tb_int_t argc, tb_char_t** argv)
+{
+    const char* name = "stream";
+    const char* file_f= "./stream_from.txt";
+    const char* file_t= "./stream_to.txt";
+    char* a[8];
+    a[1] = (char*)name;
+    a[2] = (char*)file_f;
+    a[3]= (char*)file_t;
+    main2(2, a);
+    return 0;
+}
+
+
+tb_int_t file_write(tb_int_t argc, tb_char_t** argv)
+{
+    const char* file_t= "./stream_to.txt";
+    tb_stream_ref_t ostream = tb_null;
+    ostream = tb_stream_init_from_file(file_t, TB_FILE_MODE_RW | TB_FILE_MODE_CREAT | TB_FILE_MODE_APPEND);
+    //ostream = tb_stream_init_from_file(file_t, TB_FILE_MODE_RW );
+        // open ostream
+    if (!tb_stream_open(ostream))
+    {
+        tb_trace_p("file_write ","open file err!");
+        return 2;
+    }
+    //tb_long_t res = tb_stream_printf(ostream,"hello");
+   
+    const tb_byte_t str[] = "hello\n";
+    tb_long_t res = tb_stream_writ(ostream,str, 6);
+    
+   
+    if (res < 0)
+    {
+        tb_trace_p("file_write ","tb_stream_printf err!");
+        return 3;
+    }
+   
+    //注意要有这个才能正常处理文件
+    if (ostream) tb_stream_exit(ostream);
+
+    return 0;
+}
+
+tb_int_t main(tb_int_t argc, tb_char_t** argv)
+{
+    //init 
+    if (!tb_init(tb_null, tb_null)) return -1;
+    
+    
+    file_write(argc,argv);
+    // exit tbox
+    tb_exit();
+    return 0;
+}
+
+
+
+
+
+
+

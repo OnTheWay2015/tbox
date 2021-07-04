@@ -114,6 +114,10 @@ tb_file_ref_t tb_file_init(tb_char_t const* path, tb_size_t mode)
 
         // init it again
         file = CreateFileW(full, access, share, tb_null, cflag, attr, tb_null);
+        DWORD e = GetLastError();
+        int a = 1;
+        int b = 1;
+
     }
 
     // append?

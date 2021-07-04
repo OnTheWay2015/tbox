@@ -17,7 +17,9 @@ target("tbox")
 
     -- add defines
     add_defines("__tb_prefix__=\"tbox\"")
+   
 
+	
     -- set the auto-generated config.h
     set_configdir("$(buildir)/$(plat)/$(arch)/$(mode)")
     add_configfiles("tbox.config.h.in")

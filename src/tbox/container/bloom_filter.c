@@ -181,7 +181,7 @@ tb_bloom_filter_ref_t tb_bloom_filter_init(tb_size_t probability, tb_size_t hash
         };
 
         // m = (s * n) >> 16
-        tb_size_t m = tb_fixed_mul(s_scale[hash_count - 1][probability], item_maxn);
+        tb_size_t m = tb_fixed_mul((tb_fixed16_t)s_scale[hash_count - 1][probability], (tb_fixed16_t)item_maxn);
 #endif
 
         // init size

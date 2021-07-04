@@ -10,6 +10,8 @@ target("demo")
 
     -- add defines
     add_defines("__tb_prefix__=\"demo\"")
+   
+   
 
     -- add the source files
     add_files("demo.c")

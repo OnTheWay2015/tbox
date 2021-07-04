@@ -42,6 +42,6 @@ tb_float_t tb_log2f(tb_float_t x)
 #ifdef TB_CONFIG_LIBM_HAVE_LOG2F
     return log2f(x);
 #else
-    return log(x) * 1.44269504088896340736f;
+    return (tb_float_t)(log(x) * 1.44269504088896340736f);
 #endif
 }

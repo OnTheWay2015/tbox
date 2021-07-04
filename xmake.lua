@@ -8,7 +8,7 @@ set_xmakever("2.5.1")
 set_version("1.6.6", {build = "%Y%m%d%H%M"})
 
 -- set warning all as error
-set_warnings("all", "error")
+--set_warnings("all", "error")
 
 -- set language: c99
 stdc = "c99"

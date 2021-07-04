@@ -1,0 +1,19 @@
+https://tboox.io/#/zh-cn/getting_started
+
+//源码架构
+https://tboox.io/#/zh-cn/manual/stream
+
+
+//查看编译帮助  可看要开启的模块选项
+xmake f --help
+
+//设置要开启的模块
+xmake f --charset=y --float=y
+
+
+//开启demo里的所有模块
+xmake f --demo=y
+
+
+//生成vs工程
+xmake project -k vsxmake -m "debug;release"
