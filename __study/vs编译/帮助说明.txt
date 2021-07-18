@@ -3,8 +3,10 @@ https://tboox.io/#/zh-cn/getting_started
 //源码架构
 https://tboox.io/#/zh-cn/manual/stream
 
+//使用接口
+https://xmake.io/#/manual/configuration_option?id=option_end
 
-//查看编译帮助  可看要开启的模块选项
+//查看编译帮助  可看要开启的模块选项, 需要在对应的xmake.lua根目录下
 xmake f --help
 
 //设置要开启的模块
@@ -12,8 +14,54 @@ xmake f --charset=y --float=y
 
 
 //开启demo里的所有模块
-xmake f --demo=y
+xmake f --demo=y --xml=y
 
+xmake f --small=n --xml=y       //使用时有库找不到....
 
 //生成vs工程
 xmake project -k vsxmake -m "debug;release"
+xmake project -k vsxmake -m "debug;release" -y
+
+
+
+--zip=[y|n]                        The zip module (default: y)
+        --regex=[y|n]                      The regex module (default: y)
+        --charset=[y|n]                    The charset module (default: y)
+        --object=[y|n]                     The object module (default: y)
+        --database=[y|n]                   The database module (default: y)
+        --hash=[y|n]                       The hash module (default: y)
+        --coroutine=[y|n]                  The coroutine module (default: y)
+        --xml=[y|n]                        The xml module (default: y)
+
+        --small=[y|n]                      Enable the small compile mode and disable all modules. (default: y)
+        --micro=[y|n]                      Compile micro core library for the embed system.
+        --exception=[y|n]                  Enable or disable the exception.
+        --deprecated=[y|n]                 Enable or disable the deprecated interfaces.
+        --demo=[y|n]                       Enable or disable the demo module (default: y)
+        --float=[y|n]                      Enable or disable the float type (default: y)
+        --force-utf8=[y|n]                 Forcely regard all tb_char* as utf-8.
+        --info=[y|n]                       Enable or disable to get some info, .e.g version .. (default: y)
+
+        --mbedtls=[y|n]                    Enable the mbedtls package. (default: y)
+        --pcre2=[y|n]                      Enable the pcre2 package. (default: y)
+        --zlib=[y|n]                       Enable the zlib package. (default: y)
+        --mysql=[y|n]                      Enable the mysql package. (default: y)
+        --sqlite3=[y|n]                    Enable the sqlite3 package. (default: y)
+        --openssl=[y|n]
+		
+		
+		
+
+
+在使用时，需要加预编译  
+	__tb_debug__  //如果是debug版本
+	WIN32_LEAN_AND_MEAN  //如果要使用windows.h
+	TB_CONFIG_INFO_TRACE_MORE // tb_trace_d 怎样才能生效?
+	
+	
+
+/*
+不知为什么在 初始化 dns 的地候会卡住，所以注释掉了
+
+
+*/

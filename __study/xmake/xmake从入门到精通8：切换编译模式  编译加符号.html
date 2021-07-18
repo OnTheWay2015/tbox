@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="xmake是一个基于Lua的轻量级现代化c/..." />
+    <meta property="og:description" content="xmake是一个基于Lua的轻量级现代化c/..." />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>xmake从入门到精通8：切换编译模式 - waruqi - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="https://www.cnblogs.com/css/blog-common.min.css?v=1QNSCkjkfRamBDR7eKfUQMuZ0c8lbvFqOOLshjGR1nE" />
+    <link id="MainCss" rel="stylesheet" href="https://www.cnblogs.com/skins/en_summergarden/bundle-en_summergarden.min.css?v=gu9D42SICRpSF20TsqaDDdlzi8l6wrVo-xl5ayWWci4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/css/hljs/cnblogs.css?v=2spjdq1Snjw5rAm9auWVRax8Gb7nftS4ORu-8fQ7JGM" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="https://www.cnblogs.com/skins/en_summergarden/bundle-en_summergarden-mobile.min.css?v=p9oHKzdjHOpDQRECqFt19AEtTuyvjreyaezSID0mxbI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tboox/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tboox/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tboox/wlwmanifest.xml" />
+    <script__>
+        var currentBlogId = 566181;
+        var currentBlogApp = 'tboox';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'En_summerGarden';
+        var visitorUserId = '';
+    </script__>
+        <script__>
+            var currentPostDateAdded = '2019-12-10 09:02';
+        </script__>
+    <script__ src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script__>
+    <script__ src="/js/blog-common.min.js?v=Id0wO_ikyLnpH0qCi6UJQOl-Nwv6UtTgkfVbojrU3nc"></script__>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/tboox/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="Return Home" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tboox/">TBOOX开源工程</a>
+</h1>
+<h2>专注于跨平台c开发解决方案</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+CnBlogs</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tboox/">
+Home</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+New Post</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/waruqi">
+Contact</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+Admin</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tboox/rss/">
+Subscription</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/tboox/rss/">
+    <img src="/skins/en_summergarden/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+		<div class="blogStats">
+			
+			<div id="blog_stats_place_holder"><script__>loadBlogStats();</script__></div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tboox/p/12014641.html">
+    <span>xmake从入门到精通8：切换编译模式</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"></path>
+                    </svg>
+                                            <p>xmake是一个基于Lua的轻量级现代化c/c  的项目构建工具，主要特点是：语法简单易上手，提供更加可读的项目维护，实现跨平台行为一致的构建体验。</p>
+<p>本文我们会详细介绍下如何在项目构建过程中切换debug/release等常用构建模式，以及自定义其他编译模式。</p>
+<ul>
+<li><a href="https://github.com/xmake-io/xmake" rel="nofollow" title="项目源码">项目源码</a>
+</li><li><a href="https://xmake.io/#/zh-cn/" rel="nofollow" title="官方文档">官方文档</a>
+</li></ul>
+
+
+<h3>调试和发布模式</h3>
+<p>通常，如果我们是通过<code>xmake create</code>命令创建的项目，会在xmake.lua里面自动添加一行编译规则的配置，如下：</p>
+<pre><code>add_rules("mode.release", "mode.debug")
+target("hello")
+    set_kind("binary")
+    add_files("src/*.c")</code></pre>
+
+<p>通过<code>add_rules</code>接口，我们默认添加了release和debug两个常用的内置规则，它们会在编译的时候附带上对应模式相关的一些编译flags，来开启优化用于发布或者调试编译。</p>
+<p>如果仅仅执行了<code>xmake</code>命令，没有额外的配置，那么默认就会是release编译，等价于：</p>
+<pre><code>$ xmake f -m release
+$ xmake
+[  0%]: ccache compiling.release src/main.cpp
+[100%]: linking.release test
+build ok!</code></pre>
+
+<p>如果我们要切换到debug编译模式，只需要：</p>
+<pre><code>$ xmake f -m debug
+$ xmake
+[  0%]: ccache compiling.debug src/main.cpp
+[100%]: linking.debug test
+build ok!</code></pre>
+
+<p>上面的<code>-m/--mode=</code>参数就是用来设置编译模式，会跟<code>mode.release</code>和<code>mode.debug</code>这两个规则做关联。</p>
+<p></p>
+<p></p>
+<p>那么，他们是如何关联上的呢？我们可以先来看下这两个规则的内部实现：</p>
+<pre><code>rule("mode.debug")
+    after_load(function (target)
+        if is_mode("debug") then
+            if not target:get("symbols") then
+                target:set("symbols", "debug")
+            end
+            if not target:get("optimize") then
+                target:set("optimize", "none")
+            end
+        end
+    end)
+
+rule("mode.release")
+    after_load(function (target)
+        if is_mode("release") then
+            if not target:get("symbols") and target:targetkind() ~= "shared" then
+                target:set("symbols", "hidden")
+            end
+            if not target:get("optimize") then
+                if is_plat("android", "iphoneos") then
+                    target:set("optimize", "smallest")
+                else
+                    target:set("optimize", "fastest")
+                end
+            end
+            if not target:get("strip") then
+                target:set("strip", "all")
+            end
+        end
+    end)</code></pre>
+
+<p>可以看到，在target被加载阶段，xmake会去判断用户对<code>xmake f --mode=xxx</code>的参数配置，如果通过<code>is_mode()</code>接口获取到是debug模式，那么会禁用相关优化并且启用符号输出。而如果是release模式，那么会开启编译优化并且strip掉所有调试符号。</p>
+<h3>定制化的模式配置</h3>
+<p>当然，内置的这两规则默认设置的这些编译配置，只能满足大部分场景的常规需求，如果用户想要在不同的编译模式下定制化一些个人的编译配置，那么需要自己在xmake.lua做判断。</p>
+<p>例如，我们想在release下也启用调试符号，那么只需要：</p>
+<pre><code>if is_mode("release") then
+    set_symbols("debug")
+end</code></pre>
+
+<p>或者额外增加一些编译flags：</p>
+<pre><code>if is_mode("release") then
+    add_cflags("-fomit-frame-pointer")
+end</code></pre>
+
+<p>注：如果用户自己的配置和<code>mode.release</code>内置的配置冲突，会优先使用用户的设置。</p>
+<p>当然，我们也可以完全不去通过<code>add_rules("mode.debug", "mode.release")</code>添加默认的配置规则，让用户完全自己控制模式配置：</p>
+<pre><code>-- 如果当前编译模式是debug
+if is_mode("debug") then
+
+    -- 添加DEBUG编译宏
+    add_defines("DEBUG")
+
+    -- 启用调试符号
+    set_symbols("debug")
+
+    -- 禁用优化
+    set_optimize("none")
+end
+
+-- 如果是release或者profile模式
+if is_mode("release", "profile") then
+
+    -- 如果是release模式
+    if is_mode("release") then
+
+        -- 隐藏符号
+        set_symbols("hidden")
+
+        -- strip所有符号
+        set_strip("all")
+
+        -- 忽略帧指针
+        add_cxflags("-fomit-frame-pointer")
+        add_mxflags("-fomit-frame-pointer")
+
+    -- 如果是profile模式
+    else
+        -- 启用调试符号
+        set_symbols("debug")
+    end
+
+    -- 添加扩展指令集
+    add_vectorexts("sse2", "sse3", "ssse3", "mmx")
+end</code></pre>
+
+<p></p>
+<h3>其他内置模式规则</h3>
+<p>通过上文的例子，我们看到除了debug/release模式，还加了个profile模式的配置判断，其实xmake也提供了对应的内置模式，还有哪些，我们具体来看下：</p>
+<h4>mode.debug</h4>
+<p>为当前工程xmake.lua添加debug编译模式的配置规则，例如：</p>
+<pre><code>add_rules("mode.debug")</code></pre>
+
+<p>相当于：</p>
+<pre><code>if is_mode("debug") then
+    set_symbols("debug")
+    set_optimize("none")
+end</code></pre>
+
+<p>我们可以通过：<code>xmake f -m debug</code>来切换到此编译模式。</p>
+<h4>mode.release</h4>
+<p>为当前工程xmake.lua添加release编译模式的配置规则，例如：</p>
+<pre><code>add_rules("mode.release")</code></pre>
+
+<p>相当于：</p>
+<pre><code>if is_mode("release") then
+    set_symbols("hidden")
+    set_optimize("fastest")
+    set_strip("all")
+end</code></pre>
+
+<p>我们可以通过：<code>xmake f -m release</code>来切换到此编译模式。</p>
+<h4>mode.check</h4>
+<p>为当前工程xmake.lua添加check编译模式的配置规则，一般用于内存检测，例如：</p>
+<pre><code>add_rules("mode.check")</code></pre>
+
+<p>相当于：</p>
+<pre><code>if is_mode("check") then
+    set_symbols("debug")
+    set_optimize("none")
+    add_cxflags("-fsanitize=address", "-ftrapv")
+    add_mxflags("-fsanitize=address", "-ftrapv")
+    add_ldflags("-fsanitize=address")
+end</code></pre>
+
+<p>我们可以通过：<code>xmake f -m check</code>来切换到此编译模式。</p>
+<h4>mode.profile</h4>
+<p>为当前工程xmake.lua添加profile编译模式的配置规则，一般用于性能分析，例如：</p>
+<pre><code>add_rules("mode.profile")</code></pre>
+
+<p>相当于：</p>
+<pre><code>if is_mode("profile") then
+    set_symbols("debug")
+    add_cxflags("-pg")
+    add_ldflags("-pg")
+end</code></pre>
+
+<p>我们可以通过：<code>xmake f -m profile</code>来切换到此编译模式。</p>
+<h4>mode.coverage</h4>
+<p>为当前工程xmake.lua添加coverage编译模式的配置规则，一般用于覆盖分析，例如：</p>
+<pre><code>add_rules("mode.coverage")</code></pre>
+
+<p>相当于：</p>
+<pre><code>if is_mode("coverage") then
+    add_cxflags("--coverage")
+    add_mxflags("--coverage")
+    add_ldflags("--coverage")
+end</code></pre>
+
+<p>我们可以通过：<code>xmake f -m coverage</code>来切换到此编译模式。</p>
+<p>注：生成的gcno文件一般都是个obj所在目录对应的哦，因此需要从build目录下去找。</p>
+<h3>扩展自己的编译模式</h3>
+<p>xmake的模式配置，并没有固定值，用户可以随意传入和配置，只要<code>xmake f -m/--mode=xxx</code>传入的模式值和xmake.lua里面的<code>is_mode("xxx")</code>能对应上就行。</p>
+<p>比如，我们设置了一个自己独有的编译模式<code>my_mode</code>，可以直接在命令行配置切换；</p>
+<pre><code>$ xmake f -m my_mode
+$ xmake
+[  0%]: ccache compiling.my_mode src/main.cpp
+[100%]: linking.my_mode test
+build ok!</code></pre>
+
+<p>然后xmake.lua里面对相应的值进行判断即可：</p>
+<pre><code>if is_mode("my_mode") then
+    add_defines("ENABLE_MY_MODE")
+end</code></pre>
+
+<p></p>
+<h3>使用模式变量</h3>
+<p>我们也可以直接在配置值中传递模式变量<code>$(mode)</code>，比如根据不同模式选择链接不同的库：</p>
+<pre><code>target("test")
+    set_kind("binary")
+    add_files("src/*.c")
+    add_links("xxx_$(mode)")</code></pre>
+
+<p>上面的配置，如果是调试模式编译就会选择链接：<code>libxxx_debug.a</code>库，而release下就会链接<code>libxxx_release.a</code>，当然，我们也可以设置到库搜索路径中，根据目录来选择对应的库。</p>
+<pre><code>target("test")
+    set_kind("binary")
+    add_files("src/*.c")
+    add_linkdirs("lib/$(mode)")
+    add_links("xxx")</code></pre>
+
+<p>另外，我们可以通过<code>get_config("mode")</code>直接获取到传入的模式配置值，并且这几种获取方式，在自定义脚本也是同样有效的哦，例如：</p>
+<p></p>
+<pre><code>target("test")
+    set_kind("binary")
+    add_files("src/*.c")
+    on_load(function (target)
+        if is_mode("release") then
+            print(get_config("mode"), "$(mode)")
+        end
+    end)</code></pre>
+
+<p>原文：https://tboox.org/cn/2019/12/05/quickstart-8-switch-build-mode/</p>
+<blockquote>
+<p><a href="https://tboox.org/" rel="nofollow" title="个人主页">个人主页</a></p>
+<p><a href="https://github.com/waruqi" rel="nofollow" title="个人项目">个人项目</a></p>
+</blockquote>
+
+
+                                    
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2019-12-10 09:02</span>&nbsp;
+<a href="https://www.cnblogs.com/tboox/">waruqi</a>&nbsp;
+Views(<span id="post_view_count">240</span>)&nbsp;
+Comments(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12014641" rel="nofollow">Edit</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12014641);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: '', targetType: 'blogPost', targetId: '12014641', targetLink: 'https://www.cnblogs.com/tboox/p/12014641.html', title: 'xmake从入门到精通8：切换编译模式' })">举报</a></div>
+	</div>
+	
+	
+</div>
+
+<script__ type="text/javascript">
+    var codeHighlightEngine = 1
+</script__>
+<script__ src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js" async onload="markdown_highlight()"></script__>
+<script__>
+    var allowComments = true, cb_blogId = 566181, cb_blogApp = 'tboox', cb_blogUserGuid = 'f923565a-0060-41d1-d9b5-08d77884eb28';
+    var cb_entryId = 12014641, cb_entryCreatedDate = '2019-12-10 09:02', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script__>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script__ type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script__>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script__>loadBlogNews();</script__>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script__>loadBlogDefaultCalendar();</script__></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script__>loadBlogSideColumn();</script__>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 waruqi
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8NACB8VE9qlHm6Ujjqxvg5AvVIJPmaX1Rfxj7FsHSgt2a-a5nit6bkZBp7KdlzRlwk6YwP6QQheoe4MCzyocrlBzyWgdFUczNUuiCZ9ExElEFhYEF1tZFeh1nAF9rzUZYb2HrDNOzi2_bdFepWQ4k5I" />
+</body>
+</html>

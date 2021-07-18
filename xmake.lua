@@ -37,6 +37,9 @@ if is_mode("tsan") then
     add_defines("__tb_sanitize_thread__")
 end
 
+
+set_symbols("debug")
+
 -- small or micro?
 if has_config("small", "micro") then
     add_defines("__tb_small__")
